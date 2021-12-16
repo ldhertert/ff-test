@@ -1,1 +1,43 @@
-hello world
+<html>
+  <head>
+    <script type="module">
+      //var initialize = HarnessFFSDK.initialize
+      //var Event = HarnessFFSDK.Event
+      import { initialize, Event } from 'https://unpkg.com/@harnessio/ff-javascript-client-sdk@1.4.9/dist/sdk.client.js'
+      const cf = initialize('e35b20c2-3bab-41dc-b53d-77ae89a5cbb9', {
+        identifier: 'luke.hertert@harness.io',      // Target identifier
+        name: 'Luke Hertert',                  // Optional target name
+        attributes: {                            // Optional target attributes
+          email: 'sample@sample.com'
+        }
+      })
+
+      cf.on(Event.READY, flags => {
+        // Event happens when connection to server is established
+        // flags contains all evaluations against SDK key
+        console.log('Ready');
+        console.log(flags);
+      })
+
+      cf.on(Event.CHANGED, flagInfo => {
+        // Event happens when a changed event is pushed
+        // flagInfo contains information about the updated feature flag
+        console.log('Changed', flagInfo)
+      })
+
+      cf.on(Event.DISCONNECTED, () => {
+        // Event happens when connection is disconnected
+      })
+
+      cf.on(Event.ERROR, () => {
+        // Event happens when connection some error has occurred
+      })
+
+      // second argument is default value when variation does not exist
+      const value = cf.variation('testflag', false)
+    </script>
+  </head>
+  <body>
+    hello world
+  </body>
+</html>
